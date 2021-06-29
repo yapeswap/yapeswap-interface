@@ -227,7 +227,7 @@ body {
   min-height: 100vh;
   background-repeat: no-repeat;
   background-color: ${({ theme }) => theme.bg1};
-  background-image: url(${process.env.PUBLIC_URL+`/images/bg.png`});
+  background-image: url(${process.env.PUBLIC_URL + `/images/bg.png`});
   background-position: left bottom;
 }
 `
