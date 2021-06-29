@@ -1,6 +1,6 @@
 {
-  "name": "@uniswap/interface",
-  "description": "Uniswap Interface",
+  "name": "@yapeswap/interface",
+  "description": "Yape Interface",
   "homepage": ".",
   "private": true,
   "devDependencies": {
