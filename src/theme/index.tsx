@@ -3,7 +3,7 @@ import styled, {
   ThemeProvider as StyledComponentsThemeProvider,
   createGlobalStyle,
   css,
-  DefaultTheme
+  DefaultTheme,
 } from 'styled-components'
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
@@ -32,6 +32,10 @@ const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } 
 
 const white = '#FFFFFF'
 const black = '#000000'
+
+export interface YapeTheme extends DefaultTheme {
+  bgImage: string
+}
 
 export function colors(darkMode: boolean): Colors {
   return {
@@ -87,9 +91,11 @@ export function colors(darkMode: boolean): Colors {
   }
 }
 
-export function theme(darkMode: boolean): DefaultTheme {
+export function theme(darkMode: boolean): YapeTheme {
   return {
     ...colors(darkMode),
+
+    bgImage: darkMode ? '/images/bg-dark.png' : '/images/bg.png',
 
     grids: {
       sm: 8,
@@ -215,7 +221,7 @@ html {
 }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle`
+export const ThemedGlobalStyle = createGlobalStyle<{theme: YapeTheme}>`
 @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Lato&display=swap');
 
 html {
@@ -227,7 +233,7 @@ body {
   min-height: 100vh;
   background-repeat: no-repeat;
   background-color: ${({ theme }) => theme.bg1};
-  background-image: url(${process.env.PUBLIC_URL + `/images/bg.png`});
+  background-image: url(${({ theme }) => `${process.env.PUBLIC_URL}${theme.bgImage}`});
   background-position: left bottom;
 }
 `
