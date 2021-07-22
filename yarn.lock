@@ -3309,10 +3309,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yapeswap/yape-sdk@^1.0.0-rc.1":
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@yapeswap/yape-sdk/-/yape-sdk-1.0.0-rc.1.tgz#807c20545c0a72d929e8cada3be07af3ef7a1183"
-  integrity sha512-hGGNTfNxMdgWWcPASRnPZBTWSeHkkOc6tc8KlLL1xBvADE0wbMsNPqhvBn76SuXCqxn6yjFu2qfRA9j22L52+w==
+"@yapeswap/yape-sdk@^1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@yapeswap/yape-sdk/-/yape-sdk-1.0.0-rc.3.tgz#ec1c34d7c2e83b51af47813218924ecfc47cdc55"
+  integrity sha512-igVZIAwDsDWV/dWvpLTwy/2QqtN/wAb+DDrsIH80eQ22iwK/n6c7m4KYYydTlrEO4ntBLCUwlT7wP7V0sGMzOQ==
   dependencies:
     "@uniswap/sdk-core" "^3.0.0"
     "@uniswap/v2-core" "^1.0.0"

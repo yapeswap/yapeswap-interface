@@ -92,8 +92,8 @@ const BAD_RECIPIENT_ADDRESSES: string[] = [
   '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f', // uni v2 factory
   '0xf164fC0Ec4E93095b804a4795bBe1e041497b92a', // uni v2 router 01
   '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', // uni v2 router 02
-  '0x32219a5a8ad13a141cBd689cFe0916797a58fd5a', // Yape Factory
-  '0x8984ee21515567b88907264B3135Fde05fb44c35' // Yape Router
+  '0x46aDc1C052Fafd590F56C42e379d7d16622835a2', // Yape Factory
+  '0xCC00b641305c639D9f2b3c34067C69679EE1DBEF' // Yape Router
 ]
 
 /**
