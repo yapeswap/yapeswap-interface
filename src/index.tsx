@@ -1,4 +1,5 @@
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
+import { WorkhardApp } from '@workhard/react-core'
 import 'inter-ui'
 import React, { StrictMode } from 'react'
 import { isMobile } from 'react-device-detect'
@@ -64,21 +65,23 @@ function Updaters() {
 ReactDOM.render(
   <StrictMode>
     <FixedGlobalStyle />
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <Web3ProviderNetwork getLibrary={getLibrary}>
-        <Blocklist>
-          <Provider store={store}>
-            <Updaters />
-            <ThemeProvider>
-              <ThemedGlobalStyle />
-              <HashRouter>
-                <App />
-              </HashRouter>
-            </ThemeProvider>
-          </Provider>
-        </Blocklist>
-      </Web3ProviderNetwork>
-    </Web3ReactProvider>
+    <WorkhardApp daoId={0}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ProviderNetwork getLibrary={getLibrary}>
+          <Blocklist>
+            <Provider store={store}>
+              <Updaters />
+              <ThemeProvider>
+                <ThemedGlobalStyle />
+                <HashRouter>
+                  <App />
+                </HashRouter>
+              </ThemeProvider>
+            </Provider>
+          </Blocklist>
+        </Web3ProviderNetwork>
+      </Web3ReactProvider>
+    </WorkhardApp>
   </StrictMode>,
   document.getElementById('root')
 )

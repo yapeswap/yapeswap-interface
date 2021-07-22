@@ -30,7 +30,6 @@
     "@uniswap/governance": "^1.0.2",
     "@uniswap/liquidity-staker": "^1.0.2",
     "@uniswap/merkle-distributor": "1.0.1",
-    "@yapeswap/yape-sdk": "^1.0.0-rc.3",
     "@uniswap/token-lists": "^1.0.0-beta.19",
     "@uniswap/v2-core": "1.0.0",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
@@ -40,6 +39,7 @@
     "@web3-react/portis-connector": "^6.0.9",
     "@web3-react/walletconnect-connector": "^6.1.1",
     "@web3-react/walletlink-connector": "^6.0.9",
+    "@yapeswap/yape-sdk": "^1.0.0-rc.3",
     "ajv": "^6.12.3",
     "cids": "^1.0.0",
     "copy-to-clipboard": "^3.2.0",
@@ -85,7 +85,7 @@
     "serve": "^11.3.2",
     "start-server-and-test": "^1.11.0",
     "styled-components": "^4.2.0",
-    "typescript": "^3.8.3",
+    "typescript": "^4.0.0",
     "use-count-up": "^2.2.5",
     "wcag-contrast": "^3.0.0",
     "workbox-core": "^6.1.0",
@@ -122,6 +122,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@uniswap/default-token-list": "^2.0.0"
+    "@uniswap/default-token-list": "^2.0.0",
+    "@workhard/react-core": "^0.1.0"
   }
 }

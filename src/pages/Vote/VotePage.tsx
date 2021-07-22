@@ -16,7 +16,7 @@ import {
   useUserDelegatee,
   useUserVotesAsOfBlock
 } from '../../state/governance/hooks'
-import { DateTime } from 'luxon'
+import { DateTime, DateTimeFormatOptions, LocaleOptions } from 'luxon'
 import ReactMarkdown from 'react-markdown'
 import VoteModal from '../../components/vote/VoteModal'
 import { JSBI, TokenAmount } from '@yapeswap/yape-sdk'
@@ -196,9 +196,11 @@ export default function VotePage({
           <RowBetween>
             <TYPE.main>
               {endDate && endDate < now
-                ? 'Voting ended ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? 'Voting ended ' +
+                  (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL as LocaleOptions & DateTimeFormatOptions))
                 : proposalData
-                ? 'Voting ends approximately ' + (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL))
+                ? 'Voting ends approximately ' +
+                  (endDate && endDate.toLocaleString(DateTime.DATETIME_FULL as LocaleOptions & DateTimeFormatOptions))
                 : ''}
             </TYPE.main>
           </RowBetween>
