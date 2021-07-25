@@ -52,7 +52,7 @@ const StyledMenu = styled.div`
 `
 
 const MenuFlyout = styled.span`
-  min-width: 8.125rem;
+  min-width: 8.75rem;
   background-color: ${({ theme }) => theme.bg3};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
@@ -85,7 +85,7 @@ const MenuItem = styled(ExternalLink)`
   }
 `
 
-const CODE_LINK = 'https://github.com/Uniswap/uniswap-interface'
+const CODE_LINK = 'https://github.com/yapeswap/yapeswap-interface'
 
 export default function Menu() {
   const { account } = useActiveWeb3React()
@@ -127,7 +127,7 @@ export default function Menu() {
           </MenuItem>
           {account && (
             <ButtonPrimary onClick={openClaimModal} padding="8px 16px" width="100%" borderRadius="12px" mt="0.5rem">
-              Claim UNI
+              Claim YAPE
             </ButtonPrimary>
           )}
         </MenuFlyout>

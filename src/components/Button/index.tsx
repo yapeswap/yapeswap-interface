@@ -159,7 +159,7 @@ export const ButtonPink = styled(Base)`
   }
 `
 
-export const ButtonUNIGradient = styled(ButtonPrimary)`
+export const ButtonYAPEGradient = styled(ButtonPrimary)`
   color: white;
   padding: 4px 8px;
   height: 36px;

@@ -182,7 +182,7 @@ export default function Manage({
                     ?.multiply(BIG_INT_SECONDS_IN_WEEK)
                     ?.toFixed(0, { groupSeparator: ',' }) ?? '-'
                 : '0'}
-              {' UNI / week'}
+              {' YAPE / week'}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -266,7 +266,7 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>Your unclaimed UNI</TYPE.black>
+                  <TYPE.black>Your unclaimed YAPE</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonEmpty
@@ -300,7 +300,7 @@ export default function Manage({
                         ?.multiply(BIG_INT_SECONDS_IN_WEEK)
                         ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
                     : '0'}
-                  {' UNI / week'}
+                  {' YAPE / week'}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -310,7 +310,7 @@ export default function Manage({
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          When you withdraw, the contract will automagically claim UNI on your behalf!
+          When you withdraw, the contract will automagically claim YAPE on your behalf!
         </TYPE.main>
 
         {!showAddLiquidityButton && (

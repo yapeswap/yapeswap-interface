@@ -11,7 +11,7 @@ import Logo from '../../assets/svg/logo.svg'
 import LogoDark from '../../assets/svg/logo_white.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances, useAggregateUniBalance } from '../../state/wallet/hooks'
+import { useETHBalances, useAggregateYapeBalance } from '../../state/wallet/hooks'
 import { CardNoise } from '../earn/styled'
 import { CountUp } from 'use-count-up'
 import { TYPE, ExternalLink } from '../../theme'
@@ -28,7 +28,7 @@ import { useUserHasAvailableClaim } from '../../state/claim/hooks'
 import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
-import UniBalanceContent from './UniBalanceContent'
+import YapeBalanceContent from './YapeBalanceContent'
 import usePrevious from '../../hooks/usePrevious'
 
 const HeaderFrame = styled.div`
@@ -130,7 +130,7 @@ const AccountElement = styled.div<{ active: boolean }>`
   }
 `
 
-const UNIAmount = styled(AccountElement)`
+const YAPEAmount = styled(AccountElement)`
   color: white;
   padding: 4px 8px;
   height: 36px;
@@ -139,7 +139,7 @@ const UNIAmount = styled(AccountElement)`
   background: radial-gradient(174.47% 188.91% at 1.84% 0%, #f94144 0%, #2172e5 100%), #edeef2;
 `
 
-const UNIWrapper = styled.span`
+const YAPEWrapper = styled.span`
   width: fit-content;
   position: relative;
   cursor: pointer;
@@ -260,6 +260,19 @@ const StyledExternalLink = styled(ExternalLink).attrs({
 `}
 `
 
+const StyledWarning = styled.p`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
+  border-radius: 3rem;
+  outline: none;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text4};
+  font-size: 1rem;
+  width: fit-content;
+  margin: 0 60px;
+  font-weight: 500;
+`
+
 export const StyledMenuButton = styled.button`
   position: relative;
   width: 100%;
@@ -310,7 +323,7 @@ export default function Header() {
 
   const { claimTxn } = useUserHasSubmittedClaim(account ?? undefined)
 
-  const aggregateBalance: TokenAmount | undefined = useAggregateUniBalance()
+  const aggregateBalance: TokenAmount | undefined = useAggregateYapeBalance()
 
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
   const showClaimPopup = useShowClaimPopup()
@@ -322,7 +335,7 @@ export default function Header() {
     <HeaderFrame>
       <ClaimModal />
       <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
-        <UniBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
+        <YapeBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
       </Modal>
       <HeaderRow>
         <Title href=".">
@@ -353,6 +366,7 @@ export default function Header() {
           <StyledExternalLink id={`stake-nav-link`} href={'https://uniswap.info'}>
             WHF <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
+          <StyledWarning>!!! This app is a preview. Do not use !!!</StyledWarning>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
@@ -363,18 +377,18 @@ export default function Header() {
             )}
           </HideSmall>
           {availableClaim && !showClaimPopup && (
-            <UNIWrapper onClick={toggleClaimModal}>
-              <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
+            <YAPEWrapper onClick={toggleClaimModal}>
+              <YAPEAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
                 <TYPE.white padding="0 2px">
-                  {claimTxn && !claimTxn?.receipt ? <Dots>Claiming UNI</Dots> : 'Claim UNI'}
+                  {claimTxn && !claimTxn?.receipt ? <Dots>Claiming YAPE</Dots> : 'Claim YAPE'}
                 </TYPE.white>
-              </UNIAmount>
+              </YAPEAmount>
               <CardNoise />
-            </UNIWrapper>
+            </YAPEWrapper>
           )}
           {!availableClaim && aggregateBalance && (
-            <UNIWrapper onClick={() => setShowUniBalanceModal(true)}>
-              <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
+            <YAPEWrapper onClick={() => setShowUniBalanceModal(true)}>
+              <YAPEAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
                 {account && (
                   <HideSmall>
                     <TYPE.white
@@ -393,10 +407,10 @@ export default function Header() {
                     </TYPE.white>
                   </HideSmall>
                 )}
-                yVISION
-              </UNIAmount>
+                YAPE
+              </YAPEAmount>
               <CardNoise />
-            </UNIWrapper>
+            </YAPEWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (

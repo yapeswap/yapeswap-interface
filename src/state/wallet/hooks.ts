@@ -1,5 +1,5 @@
-import { UNI } from './../../constants/index'
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@yapeswap/yape-sdk'
+import { YAPE } from './../../constants/index'
+import { ChainId, Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@yapeswap/yape-sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -134,20 +134,20 @@ export function useAllTokenBalances(): { [tokenAddress: string]: TokenAmount | u
   return balances ?? {}
 }
 
-// get the total owned, unclaimed, and unharvested UNI for account
-export function useAggregateUniBalance(): TokenAmount | undefined {
+// get the total owned, unclaimed, and unharvested YAPE for account
+export function useAggregateYapeBalance(): TokenAmount | undefined {
   const { account, chainId } = useActiveWeb3React()
 
-  const uni = chainId ? UNI[chainId] : undefined
+  const yape = chainId === ChainId.MAINNET ? YAPE : undefined
 
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, uni)
+  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, yape)
   const uniUnclaimed: TokenAmount | undefined = useUserUnclaimedAmount(account)
   const uniUnHarvested: TokenAmount | undefined = useTotalUniEarned()
 
-  if (!uni) return undefined
+  if (!yape) return undefined
 
   return new TokenAmount(
-    uni,
+    yape,
     JSBI.add(
       JSBI.add(uniBalance?.raw ?? JSBI.BigInt(0), uniUnclaimed?.raw ?? JSBI.BigInt(0)),
       uniUnHarvested?.raw ?? JSBI.BigInt(0)

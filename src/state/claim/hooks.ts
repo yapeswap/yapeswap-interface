@@ -1,4 +1,4 @@
-import { UNI } from './../../constants/index'
+import { YAPE } from './../../constants/index'
 import { TokenAmount, JSBI, ChainId } from '@yapeswap/yape-sdk'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useEffect, useState } from 'react'
@@ -64,7 +64,7 @@ export function useUserClaimData(account: string | null | undefined): UserClaimD
   return account && chainId ? claimInfo[key] : undefined
 }
 
-// check if user is in blob and has not yet claimed UNI
+// check if user is in blob and has not yet claimed YAPE
 export function useUserHasAvailableClaim(account: string | null | undefined): boolean {
   const userClaimData = useUserClaimData(account)
   const distributorContract = useMerkleDistributorContract()
@@ -78,7 +78,7 @@ export function useUserUnclaimedAmount(account: string | null | undefined): Toke
   const userClaimData = useUserClaimData(account)
   const canClaim = useUserHasAvailableClaim(account)
 
-  const uni = chainId ? UNI[chainId] : undefined
+  const uni = chainId === ChainId.MAINNET ? YAPE : undefined
   if (!uni) return undefined
   if (!canClaim || !userClaimData) {
     return new TokenAmount(uni, JSBI.BigInt(0))
@@ -110,7 +110,7 @@ export function useClaimCallback(
         .claim(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
-            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} UNI`,
+            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} YAPE`,
             claim: { recipient: account }
           })
           return response.hash
