@@ -3,7 +3,7 @@ import styled, {
   ThemeProvider as StyledComponentsThemeProvider,
   createGlobalStyle,
   css,
-  DefaultTheme,
+  DefaultTheme
 } from 'styled-components'
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
@@ -221,7 +221,7 @@ html {
 }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle<{theme: YapeTheme}>`
+export const ThemedGlobalStyle = createGlobalStyle<{ theme: YapeTheme }>`
 @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Lato&display=swap');
 
 html {
