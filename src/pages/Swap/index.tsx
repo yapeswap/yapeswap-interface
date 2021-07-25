@@ -98,6 +98,8 @@ export default function Swap({ history }: RouteComponentProps) {
     currencies,
     inputError: swapInputError
   } = useDerivedSwapInfo()
+  console.log('derived swap info is..')
+  console.log(useDerivedSwapInfo())
 
   const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback(
     currencies[Field.INPUT],

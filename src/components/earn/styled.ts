@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
 
-import uImage from '../../assets/images/big_unicorn.png'
+// import uImage from '../../assets/images/big_unicorn.png'
+import uImage from '../../assets/images/yape-bg.jpg'
 import xlUnicorn from '../../assets/images/xl_uni.png'
 import noise from '../../assets/images/noise.png'
 
@@ -31,7 +32,7 @@ export const CardBGImage = styled.span<{ desaturate?: boolean }>`
   position: absolute;
   border-radius: 12px;
   opacity: 0.4;
-  top: -100px;
+  top: -200px;
   left: -100px;
   transform: rotate(-15deg);
   user-select: none;

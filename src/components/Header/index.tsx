@@ -347,6 +347,9 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
+          <StyledNavLink id={`swap-nav-link`} to={'/farm'}>
+            {t('Farm')}
+          </StyledNavLink>
           <StyledExternalLink id={`stake-nav-link`} href={'https://uniswap.info'}>
             WHF <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>

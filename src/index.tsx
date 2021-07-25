@@ -20,6 +20,7 @@ import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
+import { BlockNumberProvider, IPFSProvider } from '@workhard/react-core'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -65,23 +66,27 @@ function Updaters() {
 ReactDOM.render(
   <StrictMode>
     <FixedGlobalStyle />
-    <WorkhardApp daoId={0}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ProviderNetwork getLibrary={getLibrary}>
-          <Blocklist>
-            <Provider store={store}>
-              <Updaters />
-              <ThemeProvider>
-                <ThemedGlobalStyle />
-                <HashRouter>
-                  <App />
-                </HashRouter>
-              </ThemeProvider>
-            </Provider>
-          </Blocklist>
-        </Web3ProviderNetwork>
-      </Web3ReactProvider>
-    </WorkhardApp>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ProviderNetwork getLibrary={getLibrary}>
+        <BlockNumberProvider>
+          <IPFSProvider>
+            <WorkhardApp daoId={0}>
+              <Blocklist>
+                <Provider store={store}>
+                  <Updaters />
+                  <ThemeProvider>
+                    <ThemedGlobalStyle />
+                    <HashRouter>
+                      <App />
+                    </HashRouter>
+                  </ThemeProvider>
+                </Provider>
+              </Blocklist>
+            </WorkhardApp>
+          </IPFSProvider>
+        </BlockNumberProvider>
+      </Web3ProviderNetwork>
+    </Web3ReactProvider>
   </StrictMode>,
   document.getElementById('root')
 )
