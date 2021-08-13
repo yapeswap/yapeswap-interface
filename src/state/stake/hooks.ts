@@ -62,7 +62,7 @@ export const STAKING_REWARDS_INFO: {
   ]
 }
 
-export const cYAPE_BURN_MINING = "0x8E9C4Dfc2Fceea58B97b0946eF5998a2786914B9"
+export const cYAPE_BURN_MINING = '0x8E9C4Dfc2Fceea58B97b0946eF5998a2786914B9'
 
 export interface StakingInfo {
   // the address of the reward contract
@@ -119,7 +119,12 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   const accountArg = useMemo(() => [account ?? undefined], [account])
 
   // get all the info from the staking rewards contracts
-  const balances = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'dispatchedMiners', accountArg)
+  const balances = useMultipleContractSingleData(
+    rewardsAddresses,
+    MINING_POOL_INTERFACE,
+    'dispatchedMiners',
+    accountArg
+  )
   const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'mined', accountArg)
   const totalSupplies = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'totalMiners')
 

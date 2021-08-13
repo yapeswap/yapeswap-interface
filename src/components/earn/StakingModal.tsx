@@ -112,7 +112,10 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
     if (isArgentWallet) {
       return approveCallback()
     }
-    await pairContract.approve(stakingContract.address, '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
+    await pairContract.approve(
+      stakingContract.address,
+      '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
+    )
   }
 
   return (
