@@ -363,7 +363,7 @@ export default function Header() {
           <StyledNavLink id={`swap-nav-link`} to={'/farm'}>
             {t('Farm')}
           </StyledNavLink>
-          <StyledExternalLink id={`stake-nav-link`} href={'https://uniswap.info'}>
+          <StyledExternalLink id={`stake-nav-link`} href={'https://app.workhard.finance/3/'}>
             WHF <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
           <StyledWarning>!!! This app is a preview. Do not use !!!</StyledWarning>

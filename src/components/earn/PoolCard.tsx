@@ -4,7 +4,7 @@ import { RowBetween } from '../Row'
 import styled from 'styled-components'
 import { TYPE, StyledInternalLink } from '../../theme'
 import DoubleCurrencyLogo from '../DoubleLogo'
-import { CurrencyAmount, ETHER, JSBI, TokenAmount } from '@yapeswap/yape-sdk'
+import { ETHER, JSBI, TokenAmount } from '@yapeswap/yape-sdk'
 import { ButtonPrimary } from '../Button'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
@@ -83,35 +83,63 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
   const backgroundColor = useColor(token)
 
   // get the USD value of staked WETH
-  const USDCPerETH = useUSDCPrice(WETH)
-  const USDCPerToken = useUSDCPrice(token)
-  const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token)
+  // const USDCPerETH = useUSDCPrice(WETH)
+  // const USDCPerToken = useUSDCPrice(token)
+  // const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token)
   const [, stakingTokenPair] = usePair(...stakingInfo.tokens)
 
-  // let returnOverMonth: Percent = new Percent('0')
+  // // let returnOverMonth: Percent = new Percent('0')
+  // let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
+  // let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
+  // if (totalSupplyOfStakingToken && stakingTokenPair && JSBI.NE(totalSupplyOfStakingToken.raw, JSBI.BigInt(0))) {
+  //   if (WETH) {
+  //     // take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
+  //     valueOfTotalStakedAmountInWETH = new TokenAmount(
+  //       WETH,
+  //       JSBI.divide(
+  //         JSBI.multiply(
+  //           JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
+  //           JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+  //         ),
+  //         totalSupplyOfStakingToken.raw
+  //       )
+  //     )
+  //     valueOfTotalStakedAmountInUSDC =
+  //       valueOfTotalStakedAmountInWETH && USDCPerETH?.quote(valueOfTotalStakedAmountInWETH)
+  //   } else if (USDCPerToken) {
+  //     valueOfTotalStakedAmountInUSDC = USDCPerToken?.quote(
+  //       new TokenAmount(token, stakingTokenPair.reserveOf(token).raw)
+  //     )
+  //   }
+  // }
+
+  // get WETH value of staked LP tokens
+  const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
-  let valueOfTotalStakedAmountInUSDC: CurrencyAmount | undefined
-  if (totalSupplyOfStakingToken && stakingTokenPair) {
-    if (WETH) {
-      // take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
-      valueOfTotalStakedAmountInWETH = new TokenAmount(
-        WETH,
-        JSBI.divide(
-          JSBI.multiply(
-            JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
-            JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
-          ),
-          totalSupplyOfStakingToken.raw
-        )
+  if (
+    totalSupplyOfStakingToken &&
+    stakingTokenPair &&
+    stakingInfo &&
+    WETH &&
+    JSBI.NE(totalSupplyOfStakingToken.raw, JSBI.BigInt(0))
+  ) {
+    // take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
+    valueOfTotalStakedAmountInWETH = new TokenAmount(
+      WETH,
+      JSBI.divide(
+        JSBI.multiply(
+          JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
+          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+        ),
+        totalSupplyOfStakingToken.raw
       )
-      valueOfTotalStakedAmountInUSDC =
-        valueOfTotalStakedAmountInWETH && USDCPerETH?.quote(valueOfTotalStakedAmountInWETH)
-    } else if (USDCPerToken) {
-      valueOfTotalStakedAmountInUSDC = USDCPerToken?.quote(
-        new TokenAmount(token, stakingTokenPair.reserveOf(token).raw)
-      )
-    }
+    )
   }
+
+  // get the USD value of staked WETH
+  const USDPrice = useUSDCPrice(WETH)
+  const valueOfTotalStakedAmountInUSDC =
+    valueOfTotalStakedAmountInWETH && USDPrice?.quote(valueOfTotalStakedAmountInWETH)
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
@@ -124,7 +152,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
           {currency0.symbol}-{currency1.symbol}
         </TYPE.white>
 
-        <StyledInternalLink to={`/uni/${currencyId(currency0)}/${currencyId(currency1)}`} style={{ width: '100%' }}>
+        <StyledInternalLink to={`/yape/${currencyId(currency0)}/${currencyId(currency1)}`} style={{ width: '100%' }}>
           <ButtonPrimary padding="8px" borderRadius="8px">
             {isStaking ? 'Manage' : 'Deposit'}
           </ButtonPrimary>

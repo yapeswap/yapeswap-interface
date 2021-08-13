@@ -1,7 +1,7 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@yapeswap/yape-sdk'
 import { useMemo } from 'react'
-import { DAI, USDC, USDT, WBTC, VISION, YAPE } from '../../constants'
-import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
+import { DAI, USDC, USDT, WBTC, YAPE } from '../../constants'
+import { MINING_POOL_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
@@ -20,31 +20,49 @@ export const STAKING_REWARDS_INFO: {
 } = {
   [ChainId.MAINNET]: [
     {
+      tokens: [WETH[ChainId.MAINNET], YAPE],
+      stakingRewardAddress: '0xfAAE9a903469883d7a2DbAcE1A53ECD7E7949f52'
+    },
+    {
       tokens: [WETH[ChainId.MAINNET], DAI],
-      stakingRewardAddress: '0xa1484C3aa22a66C62b77E0AE78E15258bd0cB711'
+      stakingRewardAddress: '0x1faACBb5b7b35DAf5C1A95F20A5a527477DfA8c0'
     },
     {
       tokens: [WETH[ChainId.MAINNET], USDC],
-      stakingRewardAddress: '0x7FBa4B8Dc5E7616e59622806932DBea72537A56b'
+      stakingRewardAddress: '0x8059234aD4d6720DA8500Cf88E2FD7A635595f45'
     },
     {
       tokens: [WETH[ChainId.MAINNET], USDT],
-      stakingRewardAddress: '0x6C3e4cb2E96B01F4b866965A91ed4437839A121a'
+      stakingRewardAddress: '0x055951c3Bc52A98500A5861716C443544ECeC837'
     },
     {
       tokens: [WETH[ChainId.MAINNET], WBTC],
-      stakingRewardAddress: '0xCA35e32e7926b96A9988f61d510E038108d8068e'
-    },
-    {
-      tokens: [WETH[ChainId.MAINNET], VISION],
-      stakingRewardAddress: '0xCA35e32e7926b96A9988f61d510E038108d8068e'
+      stakingRewardAddress: '0x902aca16FCaB57C565eA472DF1549e0f57a17813'
     },
     {
       tokens: [USDC, WBTC],
-      stakingRewardAddress: '0xCA35e32e7926b96A9988f61d510E038108d8068e'
+      stakingRewardAddress: '0x13280523586511bB2cd333a82C2761D325A83E0e'
+    },
+    {
+      tokens: [USDT, WBTC],
+      stakingRewardAddress: '0xe1362A7B4749a63F011c76D7e2Cf5f030089917F'
+    },
+    {
+      tokens: [DAI, WBTC],
+      stakingRewardAddress: '0x186e16cc466A6C03217f4B8FE615997F6b6E0651'
+    },
+    {
+      tokens: [USDC, DAI],
+      stakingRewardAddress: '0xcf9539f92930B5D692eaA6Fc33ff3e55b5c49550'
+    },
+    {
+      tokens: [USDC, USDT],
+      stakingRewardAddress: '0x625A2e9877F53f3b296323DC651cf8Ec235Faa3c'
     }
   ]
 }
+
+export const cYAPE_BURN_MINING = "0x8E9C4Dfc2Fceea58B97b0946eF5998a2786914B9"
 
 export interface StakingInfo {
   // the address of the reward contract
@@ -62,8 +80,6 @@ export interface StakingInfo {
   // the current amount of token distributed to the active account per second.
   // equivalent to percent of total supply * reward rate
   rewardRate: TokenAmount
-  // when the period ends
-  periodFinish: Date | undefined
   // if pool is active
   active: boolean
   // calculates a hypothetical amount of token distributed to the active account per second.
@@ -103,26 +119,18 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   const accountArg = useMemo(() => [account ?? undefined], [account])
 
   // get all the info from the staking rewards contracts
-  const balances = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'balanceOf', accountArg)
-  const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'earned', accountArg)
-  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, STAKING_REWARDS_INTERFACE, 'totalSupply')
+  const balances = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'dispatchedMiners', accountArg)
+  const earnedAmounts = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'mined', accountArg)
+  const totalSupplies = useMultipleContractSingleData(rewardsAddresses, MINING_POOL_INTERFACE, 'totalMiners')
 
   // tokens per second, constants
   const rewardRates = useMultipleContractSingleData(
     rewardsAddresses,
-    STAKING_REWARDS_INTERFACE,
-    'rewardRate',
+    MINING_POOL_INTERFACE,
+    'miningRate',
     undefined,
     NEVER_RELOAD
   )
-  const periodFinishes = useMultipleContractSingleData(
-    rewardsAddresses,
-    STAKING_REWARDS_INTERFACE,
-    'periodFinish',
-    undefined,
-    NEVER_RELOAD
-  )
-
   return useMemo(() => {
     if (!chainId || !yape) return []
 
@@ -134,7 +142,6 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
       // these get fetched regardless of account
       const totalSupplyState = totalSupplies[index]
       const rewardRateState = rewardRates[index]
-      const periodFinishState = periodFinishes[index]
 
       if (
         // these may be undefined if not logged in
@@ -144,17 +151,9 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         totalSupplyState &&
         !totalSupplyState.loading &&
         rewardRateState &&
-        !rewardRateState.loading &&
-        periodFinishState &&
-        !periodFinishState.loading
+        !rewardRateState.loading
       ) {
-        if (
-          balanceState?.error ||
-          earnedAmountState?.error ||
-          totalSupplyState.error ||
-          rewardRateState.error ||
-          periodFinishState.error
-        ) {
+        if (balanceState?.error || earnedAmountState?.error || totalSupplyState.error || rewardRateState.error) {
           console.error('Failed to load staking rewards info')
           return memo
         }
@@ -184,17 +183,13 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 
         const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
 
-        const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber()
-        const periodFinishMs = periodFinishSeconds * 1000
-
         // compare period end timestamp vs current block timestamp (in seconds)
-        const active =
-          periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true
+        // const active = !totalRewardRate.equalTo('0')
+        const active = true // todo use dynamic setting later
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
           tokens: info[index].tokens,
-          periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
           earnedAmount: new TokenAmount(yape, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           totalRewardRate: totalRewardRate,
@@ -212,7 +207,6 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
     currentBlockTimestamp,
     earnedAmounts,
     info,
-    periodFinishes,
     rewardRates,
     rewardsAddresses,
     totalSupplies,

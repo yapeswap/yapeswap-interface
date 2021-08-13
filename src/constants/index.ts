@@ -50,17 +50,19 @@ export const UNI: { [chainId in ChainId]: Token } = {
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, UNI_ADDRESS, 18, 'UNI', 'Uniswap')
 }
 
-export const YAPE = new Token(ChainId.MAINNET, UNI_ADDRESS, 18, 'YAPE', 'Yapeswap')
+const YAPE_ADDRESS = '0x757BC268bd50DA88b2d0cf1966652B18e56CA803'
+export const YAPE = new Token(ChainId.MAINNET, YAPE_ADDRESS, 18, 'YAPE', 'Yapeswap')
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
   [UNI_ADDRESS]: 'UNI',
+  [YAPE_ADDRESS]: 'YAPE',
   [GOVERNANCE_ADDRESS]: 'Governance',
   [TIMELOCK_ADDRESS]: 'Timelock'
 }
 
 // TODO: specify merkle distributor for mainnet
 export const MERKLE_DISTRIBUTOR_ADDRESS: { [chainId in ChainId]?: string } = {
-  [ChainId.MAINNET]: '0x090D4613473dEE047c3f2706764f49E0821D256e'
+  // [ChainId.MAINNET]: '0x090D4613473dEE047c3f2706764f49E0821D256e'
 }
 
 const WETH_ONLY: ChainTokenList = {

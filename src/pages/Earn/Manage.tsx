@@ -105,6 +105,7 @@ export default function Manage({
   // detect existing unstaked LP position to show add button if none found
   const userLiquidityUnstaked = useTokenBalance(account ?? undefined, stakingInfo?.stakedAmount?.token)
   const showAddLiquidityButton = Boolean(stakingInfo?.stakedAmount?.equalTo('0') && userLiquidityUnstaked?.equalTo('0'))
+  // const showAddLiquidityButton = true
 
   // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
@@ -121,7 +122,13 @@ export default function Manage({
   // get WETH value of staked LP tokens
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo?.stakedAmount?.token)
   let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
-  if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && WETH) {
+  if (
+    totalSupplyOfStakingToken &&
+    stakingTokenPair &&
+    stakingInfo &&
+    WETH &&
+    JSBI.NE(totalSupplyOfStakingToken.raw, JSBI.BigInt(0))
+  ) {
     // take the total amount of LP tokens staked, multiply by ETH value of all LP tokens, divide by all LP tokens
     valueOfTotalStakedAmountInWETH = new TokenAmount(
       WETH,
@@ -217,7 +224,6 @@ export default function Manage({
           <CardNoise />
         </VoteCard>
       )}
-
       {stakingInfo && (
         <>
           <StakingModal
