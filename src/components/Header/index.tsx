@@ -153,7 +153,25 @@ const YAPEWrapper = styled.span`
     opacity: 0.9;
   }
 `
+const GoToDAO = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: ${({ theme }) => theme.primary1};
+  border-radius: 12px;
+  white-space: nowrap;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
 
+  :focus {
+    border: 1px solid blue;
+  }
+  color: white;
+  padding: 4px 8px;
+  height: 36px;
+  font-weight: 500;
+`
 const HideSmall = styled.span`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
@@ -260,18 +278,18 @@ const StyledExternalLink = styled(ExternalLink).attrs({
 `}
 `
 
-const StyledWarning = styled.p`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 3rem;
-  outline: none;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text4};
-  font-size: 1rem;
-  width: fit-content;
-  margin: 0 60px;
-  font-weight: 500;
-`
+// const StyledWarning = styled.p`
+//   ${({ theme }) => theme.flexRowNoWrap}
+//   align-items: left;
+//   border-radius: 3rem;
+//   outline: none;
+//   text-decoration: none;
+//   color: ${({ theme }) => theme.text4};
+//   font-size: 1rem;
+//   width: fit-content;
+//   margin: 0 60px;
+//   font-weight: 500;
+// `
 
 export const StyledMenuButton = styled.button`
   position: relative;
@@ -332,6 +350,8 @@ export default function Header() {
   const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
 
+  const merkleDropEnabled = false
+
   return (
     <HeaderFrame>
       <ClaimModal />
@@ -364,10 +384,13 @@ export default function Header() {
           {/* <StyledNavLink id={`swap-nav-link`} to={'/farm'}>
             {t('Farm')}
           </StyledNavLink> */}
-          <StyledExternalLink id={`stake-nav-link`} href={'https://app.workhard.finance/3/'}>
-            DAO <span style={{ fontSize: '11px' }}>↗</span>
+          <StyledExternalLink id={`stake-nav-link`} href={'https://info.yape.exchange'}>
+            Stat <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
-          <StyledWarning>!!! This app is a preview. Do not use !!!</StyledWarning>
+          <StyledExternalLink id={`stake-nav-link`} href={'https://docs.yape.exchange'}>
+            Docs <span style={{ fontSize: '11px' }}>↗</span>
+          </StyledExternalLink>
+          {/* <StyledWarning>!!! This app is a preview. Do not use !!!</StyledWarning> */}
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
@@ -387,7 +410,7 @@ export default function Header() {
               <CardNoise />
             </YAPEWrapper>
           )}
-          {!availableClaim && aggregateBalance && (
+          {merkleDropEnabled && !availableClaim && aggregateBalance && (
             <YAPEWrapper onClick={() => setShowUniBalanceModal(true)}>
               <YAPEAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
                 {account && (
@@ -413,6 +436,9 @@ export default function Header() {
               <CardNoise />
             </YAPEWrapper>
           )}
+          <GoToDAO style={{ pointerEvents: 'auto' }} href={'https://dao.yape.exchange/mine'} target="_blank">
+            Go to DAO
+          </GoToDAO>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
