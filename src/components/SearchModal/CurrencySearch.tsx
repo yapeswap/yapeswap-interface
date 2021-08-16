@@ -28,6 +28,7 @@ const ContentWrapper = styled(Column)`
   width: 100%;
   flex: 1 1;
   position: relative;
+  background-color: ${({ theme }) => theme.bg3};
 `
 
 const Footer = styled.div`
@@ -36,8 +37,8 @@ const Footer = styled.div`
   padding: 20px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  background-color: ${({ theme }) => theme.bg1};
-  border-top: 1px solid ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.bg3};
+  border-top: 1px solid ${({ theme }) => theme.bg1};
 `
 
 interface CurrencySearchProps {
