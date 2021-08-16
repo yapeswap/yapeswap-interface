@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@yapeswap/yape-sdk'
+import { Currency, currencyEquals, ETHER, Token, TokenAmount, WETH } from '@yapeswap/yape-sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -328,7 +328,17 @@ export default function AddLiquidity({
               />
             )}
             pendingText={pendingText}
-            currencyToAdd={pair?.liquidityToken}
+            currencyToAdd={
+              pair
+                ? new Token(
+                    pair.liquidityToken.chainId,
+                    pair.liquidityToken.address,
+                    pair.liquidityToken.decimals,
+                    'YLP',
+                    'Yape LP'
+                  )
+                : undefined
+            }
           />
           <AutoColumn gap="20px">
             {noLiquidity ||
