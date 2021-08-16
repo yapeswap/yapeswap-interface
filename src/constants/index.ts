@@ -50,7 +50,7 @@ export const UNI: { [chainId in ChainId]: Token } = {
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, UNI_ADDRESS, 18, 'UNI', 'Uniswap')
 }
 
-const YAPE_ADDRESS = '0x757BC268bd50DA88b2d0cf1966652B18e56CA803'
+export const YAPE_ADDRESS = '0x757BC268bd50DA88b2d0cf1966652B18e56CA803'
 export const YAPE = new Token(ChainId.MAINNET, YAPE_ADDRESS, 18, 'YAPE', 'Yapeswap')
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
