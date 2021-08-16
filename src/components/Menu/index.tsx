@@ -105,11 +105,11 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://uniswap.org/">
+          <MenuItem id="link" href="https://yape.exchange/">
             <Info size={14} />
             About
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.org/docs/v2">
+          <MenuItem id="link" href="https://docs.yape.exchange">
             <BookOpen size={14} />
             Docs
           </MenuItem>
@@ -117,19 +117,19 @@ export default function Menu() {
             <Code size={14} />
             Code
           </MenuItem>
-          <MenuItem id="link" href="https://discord.gg/FCfyBSbCU5">
+          <MenuItem id="link" href="https://discord.gg/jUjE6Y4q6u">
             <MessageCircle size={14} />
             Discord
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.info/">
+          <MenuItem id="link" href="https://info.yape.exchange">
             <PieChart size={14} />
             Analytics
           </MenuItem>
-          {account && (
+          {/* {account && (
             <ButtonPrimary onClick={openClaimModal} padding="8px 16px" width="100%" borderRadius="12px" mt="0.5rem">
               Claim YAPE
             </ButtonPrimary>
-          )}
+          )} */}
         </MenuFlyout>
       )}
     </StyledMenu>
