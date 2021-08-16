@@ -117,7 +117,7 @@ export default function YapeBalanceContent({ setShowUniBalanceModal }: { setShow
               <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
             {yape && yape.chainId === ChainId.MAINNET ? (
-              <ExternalLink href={`https://uniswap.info/token/${yape.address}`}>View YAPE Analytics</ExternalLink>
+              <ExternalLink href={`https://info.yape.exchange/token/${yape.address}`}>View YAPE Analytics</ExternalLink>
             ) : null}
           </AutoColumn>
         </CardSection>
