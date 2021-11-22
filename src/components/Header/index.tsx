@@ -436,8 +436,8 @@ export default function Header() {
               <CardNoise />
             </YAPEWrapper>
           )}
-          <GoToDAO style={{ pointerEvents: 'auto' }} href={'https://dao.yape.exchange/mine'} target="_blank">
-            Go to DAO
+          <GoToDAO style={{ pointerEvents: 'auto' }} href={'https://forum.yape.exchange/'} target="_blank">
+            Go to Forum
           </GoToDAO>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
