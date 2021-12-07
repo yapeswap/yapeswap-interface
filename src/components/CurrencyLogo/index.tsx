@@ -1,6 +1,4 @@
 import { Currency, ETHER, Token } from '@yapeswap/yape-sdk'
-import { YAPE_ADDRESS } from '../../constants'
-import { getAddress } from 'ethers/lib/utils'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -10,9 +8,7 @@ import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
 export const getTokenLogoURL = (address: string) =>
-  getAddress(address) === getAddress(YAPE_ADDRESS)
-    ? `${process.env.PUBLIC_URL}/images/lucy.png`
-    : `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
+  `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
